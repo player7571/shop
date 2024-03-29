@@ -3,13 +3,11 @@ package com.codingapple.shop;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +42,7 @@ public class ItemController {
 
     @PostMapping("/add")
     String addPost(String title, Integer price){
+//    String addPost(@ModelAttribute Item val){ 쓰면 바로 넣어줌
         var val = new Item();
         val.setTitle(title);
         val.setPrice(price);
