@@ -12,16 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
 
     private final ItemRepository itemRepository;
-//    @Autowired //Lombok 없이 등록하는 방법
-//    public ItemController(ItemRepository itemRepository) {
-//        this.itemRepository = itemRepository;
-//    }
 
     @GetMapping("/list")
     String list(Model model){
@@ -31,10 +28,7 @@ public class ItemController {
         System.out.println(a.toString());
         return "list.html";
     }
-    //상품추가 기능
-    //1. 상품 이름, 가격 작성 가능한 페이지와 폼
-    //2. 전송버튼 누르면 서버에 보냄
-    //3. 서버는 검사하고 문제없으면 DB에 저장(바로 넣으면 위험하니 서버 거치는게 좋다)
+
     @GetMapping("/write")
     String write(){
         return "write.html";
@@ -42,21 +36,23 @@ public class ItemController {
 
     @PostMapping("/add")
     String addPost(String title, Integer price){
-//    String addPost(@ModelAttribute Item val){ 쓰면 바로 넣어줌
         var val = new Item();
         val.setTitle(title);
         val.setPrice(price);
         itemRepository.save(val);
-        //new Item() 해서 아이템의 오브젝트 넣어야함
-        //ItemRepository.save(???);로 db에 저장
-        //Item 변수들 private로 변경하고 해보기
         return "redirect:/list";
     }
 
-//    @PostMapping("/add")
-//    String addPost(@RequestParam Map formData){
-//        System.out.println(formData);
-//        return "redirect:/list";
-//    }
+    @GetMapping("/detail/{id}")
+    String detail(@PathVariable Long id, Model model){
+        Optional<Item> result = itemRepository.findById(id);
+        if(result.isPresent()){ //Optional 안에 값이 있는지 체크하는게 좋음
+            model.addAttribute("data", result.get());
+        } else{
+            return "redirect:/list";
+        }
+
+        return "detail.html";
+    }
 
 }
