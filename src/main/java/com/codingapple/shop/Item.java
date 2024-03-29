@@ -1,6 +1,8 @@
 package com.codingapple.shop;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -10,8 +12,10 @@ public class Item {
     public Long id;
 
     @Column(nullable = false, unique = true)
-    public String title;
-    public Integer price;
+    @Getter @Setter
+    private String title;
+    @Getter @Setter
+    private Integer price;
 
 }
 
