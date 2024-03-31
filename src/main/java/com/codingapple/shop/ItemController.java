@@ -19,13 +19,11 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     @GetMapping("/list")
     String list(Model model){
-        List<Item> result = itemRepository.findAll();
-        model.addAttribute("items", result);
-        var a = new Item();
-        System.out.println(a.toString());
+        itemService.findAllItem(model);
         return "list.html";
     }
 
@@ -36,23 +34,18 @@ public class ItemController {
 
     @PostMapping("/add")
     String addPost(String title, Integer price){
-        var val = new Item();
-        val.setTitle(title);
-        val.setPrice(price);
-        itemRepository.save(val);
+        itemService.saveItem(title, price);
         return "redirect:/list";
     }
 
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model){
-        Optional<Item> result = itemRepository.findById(id);
-        if(result.isPresent()){ //Optional 안에 값이 있는지 체크하는게 좋음
-            model.addAttribute("data", result.get());
+        if(itemService.findByIdItem(id, model)){ //Optional 안에 값이 있는지 체크하는게 좋음
+            return "detail.html";
         } else{
             return "redirect:/list";
         }
 
-        return "detail.html";
     }
 
 }
