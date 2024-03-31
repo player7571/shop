@@ -1,18 +1,9 @@
 package com.codingapple.shop;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,14 +30,14 @@ public class ItemController {
     }
 
 
-    @GetMapping("/modify/{id}")
-    String editpage(@PathVariable Long id, Model model){
+    @GetMapping("/edit/{id}")
+    String edit(@PathVariable Long id, Model model){
         itemService.findByIdItem(id, model);
-        return "modify.html";
+        return "edit.html";
     }
 
-    @PostMapping("/edit/{id}")
-    String editPost(@PathVariable Long id, String title, Integer price){
+    @PostMapping("/edit")
+    String editItem(Long id, String title, Integer price){
         itemService.modifyItem(id, title, price);
         return "redirect:/list";
     }

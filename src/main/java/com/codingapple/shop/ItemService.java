@@ -1,8 +1,10 @@
 package com.codingapple.shop;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,12 +37,15 @@ public class ItemService {
     }
 
     public void modifyItem(Long id, String title, Integer price){
-        Optional<Item> result = itemRepository.findById(id);
-        if(result.isPresent()){
-            Item item = result.get();
-            item.setTitle(title);
-            item.setPrice(price);
-            itemRepository.save(item);
+        if(title.length()>=100||price<0){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "상품명이 100자 이상이거나, 가격이 0원 미만입니다."
+            );
         }
+        Item item = new Item();
+        item.setId(id);
+        item.setTitle(title);
+        item.setPrice(price);
+        itemRepository.save(item);
     }
 }
