@@ -33,4 +33,14 @@ public class ItemService {
         }
         return false;
     }
+
+    public void modifyItem(Long id, String title, Integer price){
+        Optional<Item> result = itemRepository.findById(id);
+        if(result.isPresent()){
+            Item item = result.get();
+            item.setTitle(title);
+            item.setPrice(price);
+            itemRepository.save(item);
+        }
+    }
 }

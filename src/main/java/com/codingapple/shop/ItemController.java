@@ -38,6 +38,19 @@ public class ItemController {
         return "redirect:/list";
     }
 
+
+    @GetMapping("/modify/{id}")
+    String editpage(@PathVariable Long id, Model model){
+        itemService.findByIdItem(id, model);
+        return "modify.html";
+    }
+
+    @PostMapping("/edit/{id}")
+    String editPost(@PathVariable Long id, String title, Integer price){
+        itemService.modifyItem(id, title, price);
+        return "redirect:/list";
+    }
+
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model){
         if(itemService.findByIdItem(id, model)){ //Optional 안에 값이 있는지 체크하는게 좋음
