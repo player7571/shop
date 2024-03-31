@@ -1,6 +1,7 @@
-package com.codingapple.shop;
+package com.codingapple.shop.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,11 +45,21 @@ public class ItemController {
 
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model){
+
         if(itemService.findByIdItem(id, model)){ //Optional 안에 값이 있는지 체크하는게 좋음
             return "detail.html";
         } else{
             return "redirect:/list";
         }
+
+    }
+
+
+    @DeleteMapping("/item")
+    ResponseEntity<String> delete(@RequestParam Long id){
+
+        itemService.deleteItem(id);
+        return ResponseEntity.status(200).body("삭제완료");
 
     }
 

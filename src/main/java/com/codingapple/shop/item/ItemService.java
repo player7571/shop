@@ -1,4 +1,4 @@
-package com.codingapple.shop;
+package com.codingapple.shop.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,4 +48,12 @@ public class ItemService {
         item.setPrice(price);
         itemRepository.save(item);
     }
+
+    public void deleteItem(Long id){
+
+        itemRepository.deleteById(id);
+
+    }
+
+
 }
